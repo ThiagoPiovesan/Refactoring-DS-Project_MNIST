@@ -1,3 +1,16 @@
+#--------------------------------------------------------------------#
+# Project: MNIST Digit Recognizer
+# Created by: ArjanCodes - https://youtu.be/ka70COItN40
+# Changed by: Thiago Piovesan
+# Objective: Learning about code refactoring nad code optimization
+#--------------------------------------------------------------------#
+# Github repo: https://github.com/ThiagoPiovesan/Refactoring-DS-Project_MNIST
+# Github profile: https://github.com/ThiagoPiovesan 
+#--------------------------------------------------------------------#
+# This is to avoid the dict and tuple type hints erros
+from __future__ import annotations   
+
+# Libs importation:
 import numpy as np
 import torch
 from sklearn.metrics import accuracy_score
@@ -6,8 +19,12 @@ from tqdm import tqdm
 from src.dataset import get_train_dataloader, get_test_dataloader
 from src.metrics import Metric
 from src.models import LinearNet
-from src.tracking import TensorboardExperiment, Stage
 from src.utils import generate_tensorboard_experiment_directory
+
+from src.tracking import Stage
+from src.tensorBoard import TensorboardExperiment
+
+#====================================================================#
 
 # Hyperparameters
 hparams = {

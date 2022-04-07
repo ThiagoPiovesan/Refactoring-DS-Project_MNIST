@@ -1,5 +1,19 @@
-from pathlib import Path
+#--------------------------------------------------------------------#
+# Project: MNIST Digit Recognizer
+# Created by: ArjanCodes - https://youtu.be/ka70COItN40
+# Changed by: Thiago Piovesan
+# Objective: Learning about code refactoring nad code optimization
+#--------------------------------------------------------------------#
+# Github repo: https://github.com/ThiagoPiovesan/Refactoring-DS-Project_MNIST
+# Github profile: https://github.com/ThiagoPiovesan 
+#--------------------------------------------------------------------#
+# This is to avoid the dict and tuple type hints erros
+from __future__ import annotations 
 
+# Libs importation:
+from pathlib import Path
+  
+#====================================================================#
 
 def generate_tensorboard_experiment_directory(root: str, parents=True) -> str:
     root = Path(root).resolve()

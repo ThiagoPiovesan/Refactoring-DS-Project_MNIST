@@ -1,9 +1,23 @@
+#--------------------------------------------------------------------#
+# Project: MNIST Digit Recognizer
+# Created by: ArjanCodes - https://youtu.be/ka70COItN40
+# Changed by: Thiago Piovesan
+# Objective: Learning about code refactoring nad code optimization
+#--------------------------------------------------------------------#
+# Github repo: https://github.com/ThiagoPiovesan/Refactoring-DS-Project_MNIST
+# Github profile: https://github.com/ThiagoPiovesan 
+#--------------------------------------------------------------------#
+# This is to avoid the dict and tuple type hints erros
+from __future__ import annotations  
+
+# Libs Imporation:
 import numpy as np
 import torch
 from torch.utils.data import Dataset, DataLoader
 
 from src.load_data import load_train_labels, load_train_data, load_test_data, load_test_labels
 
+#====================================================================#
 
 class MNIST(Dataset):
     idx: int  # requested data index

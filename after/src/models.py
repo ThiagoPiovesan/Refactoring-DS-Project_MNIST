@@ -1,5 +1,19 @@
-import torch
+#--------------------------------------------------------------------#
+# Project: MNIST Digit Recognizer
+# Created by: ArjanCodes - https://youtu.be/ka70COItN40
+# Changed by: Thiago Piovesan
+# Objective: Learning about code refactoring nad code optimization
+#--------------------------------------------------------------------#
+# Github repo: https://github.com/ThiagoPiovesan/Refactoring-DS-Project_MNIST
+# Github profile: https://github.com/ThiagoPiovesan 
+#--------------------------------------------------------------------#
+# This is to avoid the dict and tuple type hints erros
+from __future__ import annotations  
 
+# Libs importation:
+import torch
+ 
+#====================================================================#
 
 class LinearNet(torch.nn.Module):
     def __init__(self):
