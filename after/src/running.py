@@ -10,8 +10,7 @@
 from typing import Any, Optional
 
 from src.metrics import Metric
-from src.tracking import ExperimentTracker
-from src.tracking import Stage
+from src.tracking import ExperimentTracker, Stage
 
 from torch.utils.data.dataloader import DataLoader
 from sklearn.metrics import accuracy_score
@@ -73,6 +72,8 @@ class Runner:
             loss.backward()
             self.optimizer.step()
     #--------------------------------------------------------------------#
+        self.y_true_batches += [y_np]
+        self.y_pred_batches += [y_prediction_np]
             
         return batch_accuracy
     
@@ -80,3 +81,38 @@ class Runner:
         self.accuracy_metric = Metric()
         self.y_true_batches = []
         self.y_pred_batches = []
+        
+        
+def run_epoch(
+        test_runner: Runner, 
+        train_runner: Runner, 
+        experiment: ExperimentTracker, 
+        epoch_id: int,
+        epoch_total: int
+    ):
+    
+    experiment.set_stage(Stage.TRAIN)
+    train_runner.run("Train batches", experiment)
+    
+    # Log Train Epoch Metrics
+    experiment.add_epoch_metric('accuracy', train_runner.avg_accuracy, epoch_id)
+    
+    experiment.set_stage(Stage.VAL)
+    test_runner.run("Validation batches", experiment)
+    
+    # Log Validation Epoch Metrics
+    experiment.add_epoch_metric('accuracy', test_runner.avg_accuracy, epoch_id)
+    experiment.add_epoch_confusion_matrix(test_runner.y_true_batches, test_runner.y_pred_batches, epoch_id)
+    
+#--------------------------------------------------------------------#
+    # Compute Average Epoch Metrics
+    summary = ', '.join([
+        f"[Epoch: {epoch_id + 1}/{epoch_total}]",
+        f"Test Accuracy: {test_runner.avg_accuracy: 0.4f}",
+        f"Train Accuracy: {train_runner.avg_accuracy: 0.4f}",
+    ])
+    print('\n' + summary + '\n')
+#--------------------------------------------------------------------#
+    # Reset some variables and metrics
+    test_runner.reset()
+    train_runner.reset()

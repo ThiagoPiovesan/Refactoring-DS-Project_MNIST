@@ -8,14 +8,21 @@
 # Github profile: https://github.com/ThiagoPiovesan 
 #--------------------------------------------------------------------#
 # This is to avoid the dict and tuple type hints erros
-from __future__ import annotations  
+from __future__ import annotations
+from pathlib import Path
+from typing import Any  
 
 # Libs Imporation:
 import numpy as np
 import torch
 from torch.utils.data import Dataset, DataLoader
 
-from src.load_data import load_train_labels, load_train_data, load_test_data, load_test_labels
+from src.load_data import load_image_data, load_label_data
+
+#====================================================================#
+# In this part of the program, we see that this class depends on the
+# load_data.py file, and we can see that this file is not very good,
+# So, we gonna change this import and the dataloader.
 
 #====================================================================#
 
@@ -67,20 +74,15 @@ class MNIST(Dataset):
         self.y = self.targets[self.idx]
         self.y = torch.tensor(self.y, dtype=torch.long)
 
+#====================================================================#
 
-def get_train_dataloader(batch_size: int) -> DataLoader:
+def create_dataloader(batch_size: int, data_path: Path, label_path: Path, shuffle: bool = True) -> DataLoader[Any]:
+    data = load_image_data(data_path)
+    label_data = load_label_data(label_path)
+    
     return DataLoader(
-        dataset=MNIST(load_train_data(), load_train_labels()),
+        dataset=MNIST(data, label_data),
         batch_size=batch_size,
-        shuffle=True,
-        num_workers=0,
-    )
-
-
-def get_test_dataloader(batch_size: int) -> DataLoader:
-    return DataLoader(
-        dataset=MNIST(load_test_data(), load_test_labels()),
-        batch_size=batch_size,
-        shuffle=False,
+        shuffle=shuffle,
         num_workers=0,
     )
