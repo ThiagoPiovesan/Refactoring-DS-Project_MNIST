@@ -46,7 +46,7 @@ TRAIN_LABELS = pathlib.Path(f"{DATA_DIR}/train-labels-idx1-ubyte.gz")
 def main():
     # Data
     train_loader = create_dataloader(BATCH_SIZE, TEST_DATA, TEST_LABELS)
-    test_loader = create_dataloader(BATCH_SIZE, TRAIN_DATA, TRAIN_LABELS)
+    test_loader = create_dataloader(BATCH_SIZE, TRAIN_DATA, TRAIN_LABELS, shuffle=False)
 
     # Model and Optimizer
     model = LinearNet()
